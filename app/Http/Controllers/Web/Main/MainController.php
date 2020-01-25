@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Images;
+namespace App\Http\Controllers\Web\Main;
 
-use App\Models\Photo;
-use http\Exception;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ImageController extends Controller
+class MainController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,8 @@ class ImageController extends Controller
      */
     public function index()
     {
-        $photos = Photo::all();
-        return view('Admin/Images/index_view',compact('photos'));
+        $sections = Section::all();
+        return view('Web.Main.Main_view',compact('sections'));
     }
 
     /**
@@ -27,7 +26,7 @@ class ImageController extends Controller
      */
     public function create()
     {
-        return view('Admin/Images/Add_view');
+        //
     }
 
     /**
@@ -38,13 +37,7 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        $photo = $request->file('photo');
-        //storeAs(path,name,disk name)
-        $path = $photo->storeAs('post',$photo->getClientOriginalName(),'images');
-        Photo::create([
-            'path'=>$path,
-        ]);
-        return redirect()->back();
+        //
     }
 
     /**
@@ -81,10 +74,6 @@ class ImageController extends Controller
         //
     }
 
-    public function delete($id){
-        $photo = Photo::findOrfail($id);
-        return view('Admin/Images/Delete_view',compact('photo'));
-    }
     /**
      * Remove the specified resource from storage.
      *
@@ -93,13 +82,6 @@ class ImageController extends Controller
      */
     public function destroy($id)
     {
-        $photo = Photo::findOrfail($id);
-        try {
-            unlink(public_path('/images/'.$photo->path));
-            $photo->delete();
-        }catch (\Exception $exception){
-        }
-
-        return redirect(route('Image.index'));
+        //
     }
 }

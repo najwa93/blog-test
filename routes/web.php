@@ -11,23 +11,29 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
-
+});*/
 
 Route::get('/Laravel', function () {
     return view('Post_view');
 });
 
-Route::prefix('Admin')->group(function () {
+Route::get('/test', function () {
+    return view('layouts.Web_app');
+});
+Route::prefix('/')->group(function () {
+    Route::resource('/Main', 'Web\Main\MainController');
+});
+
+Route::prefix('Admin')->middleware('Admin')->group(function () {
     Route::resource('Section', 'Admin\Section\SectionController');
-    Route::get('Delete/{id}', 'Admin\Section\SectionController@delete');
+    Route::get('Section/Delete/{id}', 'Admin\Section\SectionController@delete')->name('Section.delete');
     //Route::post('Delete/{id}','Admin\Section\SectionController@destroy');
 
     //Image
     Route::resource('Image', 'Admin\Images\ImageController');
-   // Route::get('Delete/{id}', 'Admin\Section\SectionController@delete');
+    Route::get('Image/Delete/{id}', 'Admin\Images\ImageController@delete')->name('Image.delete');
 });
 
 

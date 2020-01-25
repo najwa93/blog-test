@@ -41,15 +41,18 @@ class SectionController extends Controller
      */
     public function store(Request $request)
     {
+        //$users = User::where('role','=','user')->select('id','name')->get();
         $section = new Section();
         $section->name = $request->name;
-        if(!empty($request->input('admin'))){
-        $section->user_id = Auth::user()->id;
-        $user = User::findOrfail($section->user_id);
-        $user->role = "editor";
-        $user->save();
+        if (!is_null($request->input('admin'))) {
+            $user = User::findOrfail($request->input('admin'));
+            $section->user_id = $user->id;
+            //dd($user);
+            $user->role = "editor";
+            $user->save();
         }
         $section->save();
+        return redirect()->back();
     }
 
     /**
