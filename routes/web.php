@@ -11,9 +11,9 @@
 |
 */
 
-/*Route::get('/', function () {
+Route::get('/', function () {
     return view('welcome');
-});*/
+});
 
 Route::get('/Laravel', function () {
     return view('Post_view');
@@ -26,14 +26,17 @@ Route::prefix('/')->group(function () {
     Route::resource('/Main', 'Web\Main\MainController');
 });
 
-Route::prefix('Admin')->middleware('Admin')->group(function () {
-    Route::resource('Section', 'Admin\Section\SectionController');
-    Route::get('Section/Delete/{id}', 'Admin\Section\SectionController@delete')->name('Section.delete');
+Route::prefix('Admin')->middleware('AdminPanel')->group(function () {
+    Route::resource('Section', 'Admin\Section\SectionController')->middleware('AdminRole');
+    Route::get('Section/Delete/{id}', 'Admin\Section\SectionController@delete')->name('Section.delete')->middleware('AdminRole');
     //Route::post('Delete/{id}','Admin\Section\SectionController@destroy');
 
     //Image
     Route::resource('Image', 'Admin\Images\ImageController');
     Route::get('Image/Delete/{id}', 'Admin\Images\ImageController@delete')->name('Image.delete');
+
+    //Post
+    Route::resource('Post', 'Admin\Post\PostController');
 });
 
 

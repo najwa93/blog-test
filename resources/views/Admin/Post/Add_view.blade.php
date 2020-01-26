@@ -6,9 +6,9 @@
 
 @section('content')
 
-    <form method="post" action="{{route('Section.store')}}">
+    <form method="post" action="{{route('Post.store')}}">
         {{csrf_field()}}
-    <div class="col-lg-4">
+    <div class="col-lg-6">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 Post Info
@@ -17,20 +17,19 @@
 
                     <div class="form-group">
                         <label for="name">Title:</label>
-                        <input type="text" name="title" class="form-control" id="name" placeholder="section name">
+                        <input type="text" name="title" class="form-control" id="name" placeholder="Title">
                     </div>
 
                 <div class="form-group">
-                    <label for="name">Content:</label>
-                    <textarea name="content" placeholder="content" class="form-control"></textarea>
+                    <label for="name">Text:</label>
+                    <textarea name="text" placeholder="content" class="form-control"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label>Editor For This Section:</label>
-                    <select name="admin">
-                        <option value="">Empty</option>
-                        @foreach($users as $user)
-                            <option value="{{$user->id}}">{{$user->name}}</option>
+                    <label>Section:</label>
+                    <select name="section_id" class="js-example-basic-single form-control">
+                        @foreach($sections as $section)
+                            <option value="{{$section->id}}">{{$section->name}}</option>
                             @endforeach
                     </select>
                 </div>
@@ -40,6 +39,34 @@
             </div>
       </div>
     </div>
+
+        <div class="col-lg-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Post Info
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            @foreach($photos as $photo)
+                            <div class="form-group">
+                                <img src="{{url('/images/'.$photo->path)}}" style="width: 100%;">
+                                <input type="checkbox" name="photos[]" value="{{$photo->id}}" />
+                            </div>
+                                @endforeach
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+            // In your Javascript (external .js resource or <script> tag)
+            $(document).ready(function() {
+                $('.js-example-basic-single').select2();
+            });
+        </script>
     </form>
     @endsection
 

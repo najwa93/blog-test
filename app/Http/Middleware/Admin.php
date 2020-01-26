@@ -18,7 +18,7 @@ class Admin
     {
         if (Auth::guard($guard)->check()) {
             $user = Auth::user();
-            if($user->role == 'admin'){
+            if($user->role == 'admin' or $user->role == 'editor'){
                 return $next($request);
             }
         }
