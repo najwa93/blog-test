@@ -15,6 +15,7 @@ class PostPhoto extends Migration
     {
         Schema::create('post_photos', function (Blueprint $table) {
 
+            $table->increments('id');
             $table->integer('post_id')->unsigned()->nullable();
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
 

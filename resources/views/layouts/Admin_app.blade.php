@@ -271,6 +271,9 @@
                     <li>
                         <a href="{{route('Image.index')}}"><i class="fa fa-photo fa-fw"></i>Images</a>
                     </li>
+                    <li>
+                        <a href="{{route('Post.index')}}"><i class="fa fa-building-o fa-fw"></i>Posts</a>
+                    </li>
 
                 </ul>
             </div>

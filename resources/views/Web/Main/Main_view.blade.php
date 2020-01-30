@@ -14,6 +14,10 @@
         border-radius: 20px;
         width: 100%;
     }
+    .panel:hover{
+        background-color:#0c5460 ;
+        color: white;
+    }
 </style>
     @endsection
 
@@ -27,9 +31,11 @@
     <div class="row">
         @foreach($sections as $section)
         <div class="col-md-4">
-            <div class="panel">
-                <label>{{$section->name}}</label>
-            </div>
+            <a href="{{route('Web.get_all_posts',['id'=> $section->id])}}">
+                <div class="panel">
+                    <label>{{$section->name}}</label>
+                </div>
+            </a>
         </div>
             @endforeach
     </div>

@@ -26,11 +26,12 @@ class Section_po
         }
     }
 
-    public function add_post(User $user, Section $section){
-        if($user->id == $section->user_id) {
+    public function control_post(User $user, Section $section){
+      /*  if ($user->id == $section->user_id) {
             return true;
         }
-        return false;
+        return false;*/
+        return $user->id == $section->user_id;
     }
 
    /* public function update_post(){

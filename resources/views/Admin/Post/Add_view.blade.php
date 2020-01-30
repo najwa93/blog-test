@@ -15,10 +15,10 @@
             </div>
             <div class="panel-body">
 
-                    <div class="form-group">
-                        <label for="name">Title:</label>
-                        <input type="text" name="title" class="form-control" id="name" placeholder="Title">
-                    </div>
+                <div class="form-group">
+                    <label for="name">Title:</label>
+                    <input type="text" name="title" class="form-control" id="name" placeholder="Title">
+                </div>
 
                 <div class="form-group">
                     <label for="name">Text:</label>

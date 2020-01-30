@@ -18,6 +18,16 @@ class PostController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        if($user->role == 'editor'){
+            $sections = Section::where('user_id',$user->id)->get();
+            $posts = Post::where('section_id',$sections->first()->id)->get();
+        }else{
+            $sections = Section::all();
+            $posts= Post::all();
+
+        }
+       return view('Admin.Post.Index_view',compact('posts'));
 
     }
 
@@ -28,9 +38,17 @@ class PostController extends Controller
      */
     public function create()
     {
-        $sections = Section::all();
+        $user = Auth::user();
+        if($user->role == 'editor'){
+           $sections = Section::where('user_id',$user->id)->get();
+       }else{
+           $sections = Section::all();
+        }
+
+        //dd($temp);
         $photos = Photo::all();
-        return view('Admin/Post/Add_view',compact(['sections','photos']));
+
+        return view('Admin.Post.Add_view',compact(['sections','photos']));
     }
 
     /**
@@ -44,20 +62,31 @@ class PostController extends Controller
         $user = Auth::user();
         //dd($user);
         $section = Section::findOrFail($request->input('section_id'));
-        if($user->can('add_post',$section)){
+        if($user->can('control_post',$section)){
             $post = new Post();
             $post->title = $request->title;
             $post->text = $request->text;
             $post->user_id = $user->id;
             $post->section_id = $section->id;
-            $post->photo()->attach($request->input('photos'));
             $post->save();
+            $post->photo()->attach($request->input('photos'));
             $post->save();
             return redirect()->back();
         }else{
-            dd('Error No Have permession');
+            dd('Error You Have No Permession');
         }
     }
+
+    /*protected function getFlag()
+    {
+        $user = Auth::user();
+        if ($user->role == 'editor') {
+            $sections = Section::where('user_id', $user->id)->get();
+        } else {
+            $sections = Section::all();
+        }
+        return $sections;
+    }*/
 
     /**
      * Display the specified resource.
@@ -78,7 +107,21 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        $user = Auth::user();
+        if($user->can('control_post',$post->section)){
+            if($user->role == 'editor'){
+                $sections = Section::where('user_id',$user->id)->get();
+            }else{
+                $sections = Section::all();
+            }
+        //$temp = $sections->all();
+        //dd($temp);
+        $photos = Photo::all();
+        }else{
+            dd('Error You Have No Permession');
+        }
+        return view('Admin.Post.Update_view',compact('post','sections','photos'));
     }
 
     /**
@@ -90,7 +133,18 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::find($id);
+        $user = Auth::user();
+
+
+            $post->title = $request->title;
+            $post->text = $request->text;
+            $post->title = $request->title;
+            $post->photo()->detach();
+            $post->photo()->attach($request->input('photos'));
+            $post->save();
+            return redirect()->back();
+
     }
 
     /**

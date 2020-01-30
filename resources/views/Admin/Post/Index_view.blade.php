@@ -1,7 +1,7 @@
 @extends('layouts/Admin_app')
 
 @section('title')
-    Index User
+    Index Posts
 @endsection
 
 @section('content')
@@ -9,32 +9,32 @@
         <div class="col-lg-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    DataTables Advanced Tables
+                    All Posts
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <a class="btn btn-primary" href="{{route('Section.create')}}" style="margin-bottom: 10px">Add Section</a>
+                    <a class="btn btn-primary" href="{{route('Section.index')}}" style="margin-bottom: 10px">Add Post</a>
                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Admin</th>
-                            <th>Action</th>
+                            <th>Title</th>
+                            <th>Section</th>
+                            <th>Posted by</th>
+                            <th>Date</th>
+                            <th>Date</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($sections as $section)
+                        @foreach($posts as $post)
                         <tr class="odd gradeX">
-                            <td>{{$section->name}}</td>
-                            <td>{{is_null($section->user)?'':$section->user->name}}</td>
+                            <td>{{$post->title}}</td>
+                            <td>{{$post->section->name}}</td>
+                            <td>{{$post->user->name}}</td>
+                            <td>{{$post->created_at }}</td>
                             <td class="center">
-                                {{--<form action="{{route('Section.destroy',$section->id)}}" >
-                                    @method('DELETE')
-                                    {{csrf_field()}}
-                                    <button type='submit' class= 'btn btn-danger' >Delete</button>
-                                </form>--}}
-                                <a class="btn btn-warning" href="{{route('Section.update',['id' => $section->id])}}">Update</a>
-                                <a class="btn btn-danger" href="{{route('Section.delete',['id' => $section->id])}}">Delete</a>
+
+                                <a class="btn btn-warning" href="{{route('Post.edit',['id' => $post->id])}}">Update</a>
+                                <a class="btn btn-danger" href="{{route('Post.destroy',['id' => $post->id])}}">Delete</a>
                             </td>
                         </tr>
                             @endforeach

@@ -1,7 +1,7 @@
 @extends('layouts/Admin_app')
 
 @section('title')
-    Update Section
+    Update Post
 @endsection
 
 @section('content')
@@ -12,7 +12,7 @@
         <div class="col-lg-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    Section Info
+                    Post Info
                 </div>
                 <div class="panel-body">
                     <label>Editor For This Section:</label>
@@ -37,6 +37,13 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            // In your Javascript (external .js resource or <script> tag)
+            $(document).ready(function() {
+                $('.js-example-basic-single').select2();
+            });
+        </script>
     </form>
 @endsection
 

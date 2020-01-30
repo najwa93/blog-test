@@ -23,7 +23,13 @@ Route::get('/test', function () {
     return view('layouts.Web_app');
 });
 Route::prefix('/')->group(function () {
-    Route::resource('/Main', 'Web\Main\MainController');
+    Route::resource('Main', 'Web\Main\MainController');
+    //Section
+    Route::resource('Section', 'Web\Section\SectionController');
+    Route::get('get_all_posts/{Section_id}', 'Web\Section\SectionController@get_all_posts')->name('Web.get_all_posts');
+    //post
+    Route::resource('Post', 'Web\Section\SectionController');
+    Route::get('get_post/{post_id}', 'Web\Post\PostController@get_post')->name('Web.get_post');
 });
 
 Route::prefix('Admin')->middleware('AdminPanel')->group(function () {
@@ -39,13 +45,11 @@ Route::prefix('Admin')->middleware('AdminPanel')->group(function () {
     Route::resource('Post', 'Admin\Post\PostController');
 });
 
-
-
-
-
 Route::get('/Admin/Main', function () {
     return view('layouts/Admin_app');
 });
+
+Route::resource('Section', 'Web\Section\SectionController');
 
 Auth::routes();
 
