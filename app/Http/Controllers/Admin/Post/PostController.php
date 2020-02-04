@@ -147,14 +147,33 @@ class PostController extends Controller
 
     }
 
+    public function delete($id){
+        $user = Auth::user();
+        $post = Post::findOrfail($id);
+        $section = $post->section;
+        if($user->can('control_post',$post->section)){
+            if($user->role == 'editor'){
+                $sections = Section::where('user_id',$user->id)->get();
+            }else{
+                $sections = Section::all();
+            }
+            $photos = Photo::all();
+        }else{
+            dd('Error You Have No Permession');
+        }
+        return view('Admin.Post.Delete_view',compact('post'));
+    }
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        $post = Post::findOrfail($id);
+        $post->delete();
+        return redirect(route('Post.index'));
+
     }
 }

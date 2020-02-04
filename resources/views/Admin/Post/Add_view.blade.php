@@ -22,7 +22,7 @@
 
                 <div class="form-group">
                     <label for="name">Text:</label>
-                    <textarea name="text" placeholder="content" class="form-control"></textarea>
+                    <textarea name="text" placeholder="content" class="form-control ckeditor"></textarea>
                 </div>
 
                 <div class="form-group">
@@ -47,14 +47,12 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-4">
                             @foreach($photos as $photo)
-                            <div class="form-group">
-                                <img src="{{url('/images/'.$photo->path)}}" style="width: 100%;">
-                                <input type="checkbox" name="photos[]" value="{{$photo->id}}" />
+                            <div class="col-md-4">
+                                <img src="{{url('/images/'.$photo->path)}}" style="width: 100px;height: 100px; margin: 10px;" onclick="alert('{{url('/images/'.$photo->path)}}')">
+                                <input type="checkbox" name="photos[]" value="{{$photo->id}}/>
                             </div>
                                 @endforeach
-                        </div>
                     </div>
                 </div>
 

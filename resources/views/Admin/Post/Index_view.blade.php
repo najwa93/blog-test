@@ -34,7 +34,7 @@
                             <td class="center">
 
                                 <a class="btn btn-warning" href="{{route('Post.edit',['id' => $post->id])}}">Update</a>
-                                <a class="btn btn-danger" href="{{route('Post.destroy',['id' => $post->id])}}">Delete</a>
+                                <a class="btn btn-danger" href="{{route('Post.delete',['id' => $post->id])}}">Delete</a>
                             </td>
                         </tr>
                             @endforeach

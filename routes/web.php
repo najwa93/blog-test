@@ -30,6 +30,8 @@ Route::prefix('/')->group(function () {
     //post
     Route::resource('Post', 'Web\Section\SectionController');
     Route::get('get_post/{post_id}', 'Web\Post\PostController@get_post')->name('Web.get_post');
+    //
+    Route::post('comment/{post_id}', 'Web\Post\PostController@post_comment')->name('Web.post_comment');
 });
 
 Route::prefix('Admin')->middleware('AdminPanel')->group(function () {
@@ -43,6 +45,7 @@ Route::prefix('Admin')->middleware('AdminPanel')->group(function () {
 
     //Post
     Route::resource('Post', 'Admin\Post\PostController');
+    Route::get('Post/Delete/{id}', 'Admin\Post\PostController@delete')->name('Post.delete');
 });
 
 Route::get('/Admin/Main', function () {

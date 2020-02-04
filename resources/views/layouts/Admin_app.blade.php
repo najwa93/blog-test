@@ -31,6 +31,7 @@
     <![endif]-->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.13.1/full/ckeditor.js"></script>
 
 </head>
 
@@ -264,10 +265,11 @@
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
-                    <li>
-                        <a href="{{route('Section.index')}}"><i class="fa fa-th fa-fw"></i>Sections</a>
-                    </li>
-
+                    @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+                        <li>
+                            <a href="{{route('Section.index')}}"><i class="fa fa-th fa-fw"></i>Sections</a>
+                        </li>
+                    @endif
                     <li>
                         <a href="{{route('Image.index')}}"><i class="fa fa-photo fa-fw"></i>Images</a>
                     </li>
