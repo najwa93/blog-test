@@ -136,14 +136,13 @@ class PostController extends Controller
         $post = Post::find($id);
         $user = Auth::user();
 
-
-            $post->title = $request->title;
-            $post->text = $request->text;
-            $post->title = $request->title;
-            $post->photo()->detach();
-            $post->photo()->attach($request->input('photos'));
-            $post->save();
-            return redirect()->back();
+        $post->title = $request->title;
+        $post->text = $request->text;
+        $post->title = $request->title;
+        $post->photo()->detach();
+        $post->photo()->attach($request->input('photos'));
+        $post->save();
+        return redirect()->back();
 
     }
 

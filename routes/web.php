@@ -22,18 +22,25 @@ Route::get('/Laravel', function () {
 Route::get('/test', function () {
     return view('layouts.Web_app');
 });
+
+//Post Section
 Route::prefix('/')->group(function () {
     Route::resource('Main', 'Web\Main\MainController');
     //Section
     Route::resource('Section', 'Web\Section\SectionController');
     Route::get('get_all_posts/{Section_id}', 'Web\Section\SectionController@get_all_posts')->name('Web.get_all_posts');
     //post
-    Route::resource('Post', 'Web\Section\SectionController');
-    Route::get('get_post/{post_id}', 'Web\Post\PostController@get_post')->name('Web.get_post');
-    //
-    Route::post('comment/{post_id}', 'Web\Post\PostController@post_comment')->name('Web.post_comment');
+    Route::prefix('/Post')->group(function () {
+        Route::resource('/', 'Web\Section\SectionController');
+        Route::get('get_post/{post_id}', 'Web\Post\PostController@get_post')->name('Web.get_post');
+        //
+        Route::resource('/Comment', 'Web\Post\CommentController');
+        Route::post('Comment/{post_id}', 'Web\Post\CommentController@post_comment')->name('Web.post_comment');
+
+    });
 });
 
+//Admin Section
 Route::prefix('Admin')->middleware('AdminPanel')->group(function () {
     Route::resource('Section', 'Admin\Section\SectionController')->middleware('AdminRole');
     Route::get('Section/Delete/{id}', 'Admin\Section\SectionController@delete')->name('Section.delete')->middleware('AdminRole');

@@ -114,7 +114,7 @@
                 @if($comm->user_id == \Illuminate\Support\Facades\Auth::user()->id or \Illuminate\Support\Facades\Auth::user()->role == 'admin' or \Illuminate\Support\Facades\Auth::user()->id == $post->section->user_id)
                 <div class="col-md-2">
                     <div class="control">
-                        <a href="#">Edit</a>
+                        <a href="{{route('Comment.edit',['id' => $comm->id])}}">Edit</a>
                         <a href="#">Delete</a>
                     </div>
                 </div>

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class PostController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,25 +20,6 @@ class PostController extends Controller
         //
     }
 
-    public function get_post($id)
-    {
-        $post = Post::findOrfail($id);
-        $comment = Comment::where('post_id',$post->id)->get();
-        return view('Web.post.Index_view',compact(['post','comment']));
-    }
-
-   /* public function post_comment(Request $request,$id)
-    {
-        $user = Auth::user();
-        $post = Post::findOrfail($id);
-        $comment = new Comment();
-        $comment->user_id = $user->id;
-        $comment->post_id = $post->id;
-        $comment->content = $request['content'];
-        $comment->save();
-        //dd($comment);
-       return redirect()->back();
-    }*/
     /**
      * Show the form for creating a new resource.
      *
@@ -49,15 +30,27 @@ class PostController extends Controller
         //
     }
 
+    public function post_comment(Request $request,$id)
+    {
+        $user = Auth::user();
+        $post = Post::findOrfail($id);
+        $comment = new Comment();
+        $comment->user_id = $user->id;
+        $comment->post_id = $post->id;
+        $comment->content = $request['content'];
+        $comment->save();
+        //dd($comment);
+        return redirect()->back();
+    }
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        //
+
     }
 
     /**
@@ -79,7 +72,12 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $comment = Comment::findOrfail($id);
+        $section = $comment->post->section;
+        $post = $comment->post;
+        $user = auth()->user();
+
+        return view('Web.Post.Edit_comment_view',compact(['comment','post']));
     }
 
     /**
@@ -91,7 +89,14 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $comment = Comment::findOrfail($id);
+        $section = $comment->post->section;
+        $post = $comment->post;
+        $user = auth()->user();
+        /*if($user->can('edit_comment') or $user->can('control_post',$section)){
+            $comment->content = $request->content;
+            return redirect(route('Web.get_post',['id' => $post->id]));
+        }*/
     }
 
     /**
