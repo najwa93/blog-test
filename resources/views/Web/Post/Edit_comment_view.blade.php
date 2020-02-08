@@ -36,8 +36,9 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <form method="post" action="{{route('Web.post_comment',$post->id)}}">
+                <form method="post" action="{{route('Comment.update',$comment->id)}}">
                     {{csrf_field()}}
+                    @method('PUT')
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls">
                             <label>Message</label>

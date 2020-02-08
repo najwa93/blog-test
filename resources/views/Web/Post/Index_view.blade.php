@@ -1,4 +1,3 @@
-
 @extends('layouts.Web_app')
 
 @section('title')
@@ -10,12 +9,12 @@
     {{count($post->photo)>0?url('/images/'.$post->photo[0]->path):url('/images/home-bg.jpg')}}
 @endsection
 @section('subject')
-   {{$post->title}}
+    {{$post->title}}
 @endsection
 
 @section('head')
     <style>
-        .my-textarea{
+        .my-textarea {
             border: 1px solid #a3a3a3 !important;
             border-radius: 20px !important;
             padding: 10px !important;
@@ -45,10 +44,12 @@
             justify-content: center;
             align-items: center;
         }
-        .control{
+
+        .control {
             font-size: 13px;
         }
-        .comment .footer{
+
+        .comment .footer {
             font-size: 12px;
             color: #828d95;
             margin-left: auto;
@@ -57,74 +58,87 @@
         }
 
     </style>
-    @endsection
+@endsection
 @section('content')
     <article>
-            <div class="row">
-                <div class=" col-md-10">
-                   {!! $post->text !!}
-                    <div class="row">
+        <div class="row">
+            <div class=" col-md-10">
+                {!! $post->text !!}
+                <div class="row">
                     @foreach($post->photo as $photo)
 
-                            <div class="col-md-4">
-                                <img  src="{{url('/images/'.$photo->path)}}" style="width: 150px;height: 150px"/>
-                            </div>
-                        @endforeach
-                    </div>
+                        <div class="col-md-4">
+                            <img src="{{url('/images/'.$photo->path)}}" style="width: 150px;height: 150px"/>
+                        </div>
+                    @endforeach
                 </div>
             </div>
+        </div>
     </article>
 
     @auth
-    <!-- Main Content -->
-    <div class="container">
+        <!-- Main Content -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form method="post" action="{{route('Web.post_comment',$post->id)}}">
+                        {{csrf_field()}}
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls">
+                                <label>Message</label>
+                                <textarea rows="5" class="form-control my-textarea" name="content" placeholder="Comment"
+                                          required
+                                          data-validation-required-message="Please enter a message."></textarea>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <br>
+                        <div id="success"></div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" style="border-radius: 8px"
+                                    id="sendMessageButton">Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
-            <div class="col-lg-12">
-                <form method="post" action="{{route('Web.post_comment',$post->id)}}">
-                    {{csrf_field()}}
-                    <div class="control-group">
-                        <div class="form-group floating-label-form-group controls">
-                            <label>Message</label>
-                            <textarea rows="5" class="form-control my-textarea" name="content" placeholder="Comment" required data-validation-required-message="Please enter a message."></textarea>
-                            <p class="help-block text-danger"></p>
+            <div class="col-md-12">
+                @foreach($comment as $comm)
+                    <div class="row comment">
+                        <div class="col-md-2">
+                            <div class="user-name">
+                                <label> {{$comm->user->name}} </label>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            {!! str_replace(array("\n"),'<br/>',$comm->content )!!}
+                        </div>
+                        @if($comm->user_id == \Illuminate\Support\Facades\Auth::user()->id or \Illuminate\Support\Facades\Auth::user()->role == 'admin' or \Illuminate\Support\Facades\Auth::user()->id == $post->section->user_id)
+                            <div class="col-md-2">
+                                <div class="control">
+                                    <a href="{{route('Comment.edit',['id' => $comm->id])}}">Edit</a>|
+                                    <a href="{{route('Web.delete_comment',['id' => $comm->id])}}"  >Delete</a>
+                                </div>
+                            </div>
+                        @endif
+                        <div class="footer">
+                            {{ $comm->created_at}}
                         </div>
                     </div>
-                    <br>
-                    <div id="success"></div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary" style="border-radius: 8px" id="sendMessageButton">Send</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            @foreach($comment as $comm)
-            <div class="row comment">
-                <div class="col-md-2">
-                    <div class="user-name">
-                        <label> {{$comm->user->name}} </label>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                   {{$comm->content}}
-                </div>
-                @if($comm->user_id == \Illuminate\Support\Facades\Auth::user()->id or \Illuminate\Support\Facades\Auth::user()->role == 'admin' or \Illuminate\Support\Facades\Auth::user()->id == $post->section->user_id)
-                <div class="col-md-2">
-                    <div class="control">
-                        <a href="{{route('Comment.edit',['id' => $comm->id])}}">Edit</a>
-                        <a href="#">Delete</a>
-                    </div>
-                </div>
-                @endif
-                <div class="footer">
-                  {{ $comm->created_at}}
-                </div>
-            </div>
                 @endforeach
+            </div>
+
+            <script>
+                function deleteComment($url){
+                    var flag = confirm('Are you sure?');
+                    if(flag){
+                        window.location.href($url);
+                    }
+                }
+            </script>
         </div>
-    </div>
     @endauth
 @endsection

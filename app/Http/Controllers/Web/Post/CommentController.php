@@ -93,12 +93,24 @@ class CommentController extends Controller
         $section = $comment->post->section;
         $post = $comment->post;
         $user = auth()->user();
-        /*if($user->can('edit_comment') or $user->can('control_post',$section)){
-            $comment->content = $request->content;
+        $comment->save();
+        if($user->can('edit_comment') or $user->can('control_post',$section)){
+            $comment->content = $request['content'];
+            $comment->save();
             return redirect(route('Web.get_post',['id' => $post->id]));
-        }*/
+        }
     }
 
+    public function delete_comment($id){
+        $comment = Comment::findOrfail($id);
+        $section = $comment->post->section;
+        $post = $comment->post;
+        $user = auth()->user();
+        if($user->can('edit_comment') or $user->can('control_post',$section)){
+            $comment->delete();
+            return redirect()->back();
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -107,6 +119,11 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        /*if($user->can('edit_comment') or $user->can('control_post',$section)){
+            $comment->delete();
+
+        }*/
+       //
     }
 }

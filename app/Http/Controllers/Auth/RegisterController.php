@@ -12,7 +12,7 @@ class RegisterController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Register Controller
+    | Auth Controller
     |--------------------------------------------------------------------------
     |
     | This controller handles the registration of new users as well as their
@@ -52,6 +52,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+
         ]);
     }
 
@@ -67,8 +68,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'phone' => '',
-            'role' => ''
+            'phone' => $data['phone'],
+            'role' => 'user'
         ]);
     }
 }

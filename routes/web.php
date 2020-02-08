@@ -35,13 +35,16 @@ Route::prefix('/')->group(function () {
         Route::get('get_post/{post_id}', 'Web\Post\PostController@get_post')->name('Web.get_post');
         //
         Route::resource('/Comment', 'Web\Post\CommentController');
-        Route::post('Comment/{post_id}', 'Web\Post\CommentController@post_comment')->name('Web.post_comment');
-
+        Route::post('{post_id}/Post', 'Web\Post\CommentController@post_comment')->name('Web.post_comment');
+        Route::get('{comment_id}', 'Web\Post\CommentController@delete_comment')->name('Web.delete_comment');
     });
 });
 
 //Admin Section
 Route::prefix('Admin')->middleware('AdminPanel')->group(function () {
+    Route::get('/Main', function (){
+        return view('Admin.Main_view');
+    })->name('Admin.main');
     Route::resource('Section', 'Admin\Section\SectionController')->middleware('AdminRole');
     Route::get('Section/Delete/{id}', 'Admin\Section\SectionController@delete')->name('Section.delete')->middleware('AdminRole');
     //Route::post('Delete/{id}','Admin\Section\SectionController@destroy');

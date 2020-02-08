@@ -40,6 +40,22 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('Main.index')}}">Home</a>
                 </li>
+                @auth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">Logout</a>
+                    </li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">Register</a>
+                    </li>
+                    @endauth
                 <li class="nav-item">
                     <a class="nav-link" href="about.html">About</a>
                 </li>
