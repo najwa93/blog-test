@@ -26,6 +26,9 @@ Route::get('/test', function () {
 //Post Section
 Route::prefix('/')->group(function () {
     Route::resource('Main', 'Web\Main\MainController');
+    Route::resource('Profile', 'Auth\ProfileController');
+    Route::get('Profile', 'Auth\ProfileController@edit')->name('Web.profile');
+    Route::post('Profile', 'Auth\ProfileController@update');
     //Section
     Route::resource('Section', 'Web\Section\SectionController');
     Route::get('get_all_posts/{Section_id}', 'Web\Section\SectionController@get_all_posts')->name('Web.get_all_posts');
